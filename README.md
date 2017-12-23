@@ -72,3 +72,4 @@ The `shellcode/` folder contains a collection of sboot shellcodes for interactio
 * dump_fw_bootrom.c: Dumps the firmware from any eMMC (even bricked ones).
 * change_boot_partition_size.c: Resizes the eMMC boot partition using its own mechanism (only for working eMMC devices).
 * demo.c: Shellcode for eMMC talk demo purposes (please, don't use it!).
+* helloworld.c: Prints a "Hello, world!" message on sboot's screen.

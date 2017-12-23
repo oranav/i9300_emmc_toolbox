@@ -7,7 +7,7 @@ OBJCOPY=${CROSS_COMPILE}objcopy
 CFLAGS += -fno-stack-protector -fno-common -fomit-frame-pointer -fPIE -static -O0
 LDFLAGS += -nostdlib
 
-all: demo.bin write_fw.bin change_boot_partition_size.bin dump_fw.bin dump_fw_bootrom.bin
+all: helloworld.bin demo.bin write_fw.bin change_boot_partition_size.bin dump_fw.bin dump_fw_bootrom.bin
 
 %.bin: %.elf
 	${OBJCOPY} -j .text -j .rodata -j .data -O binary $< $@
