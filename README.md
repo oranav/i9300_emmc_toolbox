@@ -17,11 +17,11 @@ $ make -C shellcode
 1. Obtain a VTU00M firmware dump (either 0xF1 or 0xF7) preferably from a donor 0xF7 device, or just dump your own 0xF1 device. Reference SHA256 sums are given [below](#reference-vtu00m-firmware-sha256-sums). This step is explained in detail [here](#obtaining-a-firmware-dump).
 2. [Boot to download mode (sboot) on your device](#booting-into-download-mode).
 3. Run the following command in order to low-level format the eMMC and install the new firmware:
-	`./sboot_exploit.py shellcode/write_fw.bin -e FWDUMP`,
+	`exploit/sboot_exploit.py shellcode/write_fw.bin -e FWDUMP`,
     where FWDUMP is the firmware dump obtained in step #1.
 4. Your device no longer has sboot installed in its boot partition, so you must prepare a recovery SD card with sboot XXELLA if not already done before. Insert it into your device and boot into download mode as usual (you'll see nothing on screen, but device will show under `lsusb`).
 5. Resize the boot partition:
-	`./sboot_exploit.py shellcode/change_boot_partition_size.bin`
+	`exploit/sboot_exploit.py shellcode/change_boot_partition_size.bin`
 6. eMMC should be working right now. You can use a normal recovery SD card [as described here](https://forum.xda-developers.com/galaxy-s3/general/galaxy-s-iii-gt-i9300-hard-brick-fix-t1916796). This will install sboot on your eMMC, using *SDCARD mode*.
 7. You're able to use Odin or [Heimdall](https://github.com/Benjamin-Dobell/Heimdall) to flash a new ROM to your device (you also need to repartition, i.e. flash a new PIT).
 
@@ -32,14 +32,14 @@ $ make -C shellcode
 This is the preferred method, as your device will no longer suffer from the eMMC bug.
 
 * First option: use a patched kernel as described [here](https://forum.xda-developers.com/showpost.php?p=37936242&postcount=72). Once you obtained mmcram.bin, strip it to contain only the firmware: `dd if=mmcram.bin of=0xf7.bin bs=4K skip=64 count=32`.
-* Second option: dump using download mode. You need sboot XXELLA since the shellcode is compiled against it. Enter download mode on your device, then run `./sboot_exploit.py shellcode/dump_fw.bin -o 0xf7.bin`.
+* Second option: dump using download mode. You need sboot XXELLA since the shellcode is compiled against it. Enter download mode on your device, then run `exploit/sboot_exploit.py shellcode/dump_fw.bin -o 0xf7.bin`.
 
 
 #### Obtaining the firmware from your bricked device (0xF1)
 
 This will unbrick your device, but your device will still suffer from the eMMC bug; the brick might happen again in the future. It's much better to obtain firmware 0xF7.
 
-[Boot into download mode](#booting-into-download-mode), and run `./sboot_exploit.py shellcode/dump_fw_bootrom.bin -o 0xf1.bin`.
+[Boot into download mode](#booting-into-download-mode), and run `exploit/sboot_exploit.py shellcode/dump_fw_bootrom.bin -o 0xf1.bin`.
 
 ### Booting into download mode
 
@@ -57,6 +57,10 @@ TBA
 * 0xF7 firmware (bug fixed): 1c3ce3148704e21749c6b59ff88c7a133d385024f70038615806ae9e95798dbf
 
 # Files
+
+## Exploit
+
+The `exploit/` folder contains the sboot exploit in order to run code in the sboot environment.
 
 * sboot_exploit.py: sboot exploit using PIT file packets vulnerabilities; should work on all GT-I9300 sboot versions
 * odin.py: Quick and dirty approach for implementing Odin's protocol in Python
