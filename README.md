@@ -49,7 +49,16 @@ If your device cannot boot into download mode (i.e. it's entirely dead - you see
 
 #### Preparing a recovery SD card with sboot XXELLA
 
-TBA
+Prerequisites: obtain the firmware I9300XXELLA_I9300OXAELLA_BTU.zip. Extract the zip file, then extract the tar.md5 file inside (which is just a tar), and grab sboot.bin. This is the relevant sboot version. Copy it inside the sdcard folder.
+
+Then run the following commands (replace DEV with the sdcard device on your computer, e.g. /dev/sdc. Be careful!):
+
+```shell
+$ cd sdcard
+$ ./create_recovery_sdcard.py -o recovery_sdcard.bin -s sboot.bin
+$ dd if=recovery_sdcard.bin of=DEV
+$ sync
+```
 
 ### Reference VTU00M firmware SHA256 sums
 
