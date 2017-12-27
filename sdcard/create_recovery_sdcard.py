@@ -17,7 +17,7 @@ if __name__ == '__main__':
                         required=True, help='sboot.bin (from XXELLA)')
     args = parser.parse_args()
 
-    args.output.write(open('header.bin','rb').read())
+    args.output.write(b'\x00'*0x200)
     args.output.write(open('bl1.HardKernel','rb').read())
     args.output.write(open('bl2.HardKernel','rb').read())
     args.output.write(b'\x00'*(0x7e00-args.output.tell()))
