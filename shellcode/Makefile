@@ -4,7 +4,7 @@ CC=${CROSS_COMPILE}gcc
 LD=${CROSS_COMPILE}gcc
 OBJCOPY=${CROSS_COMPILE}objcopy
 
-CFLAGS += -fno-stack-protector -fno-common -fomit-frame-pointer -fPIE -static -O0
+CFLAGS += -fno-stack-protector -fno-common -fomit-frame-pointer -fPIE -static -O0 --std=gnu99
 LDFLAGS += -nostdlib
 
 all: helloworld.bin demo.bin write_fw.bin change_boot_partition_size.bin dump_fw.bin dump_fw_bootrom.bin
