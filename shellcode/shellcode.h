@@ -8,6 +8,10 @@
 #ifndef _SHELLCODE_H_
 #define _SHELLCODE_H_
 
+/* These are auto-replaced by the exploit itself with the correct values */
+#define MAGIC_USB_WRITE	(0x8776D35A)
+#define MAGIC_USB_READ	(0xB9F9EAD9)
+
 /* Structs and typedefs */
 struct mmc_cmd {
 	unsigned short cmdidx;
@@ -47,10 +51,10 @@ typedef void _sleep(int);
 #define sleep ((_sleep*)0x43E046E8)
 
 typedef void _usb_write(const void *, unsigned);
-#define usb_write ((_usb_write*)0x43E24C2C)
+#define usb_write ((_usb_write*)MAGIC_USB_WRITE)
 
 typedef void _usb_read(void *, unsigned);
-#define usb_read ((_usb_read*)0x43E24C64)
+#define usb_read ((_usb_read*)MAGIC_USB_READ)
 
 typedef void _s5c_mshc_init(void *);
 #define s5c_mshc_init ((_s5c_mshc_init*)0x43E1E718)
