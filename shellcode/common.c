@@ -21,6 +21,16 @@ void *memcpy(void *dst, const void *src, size_t n)
 	return dst;
 }
 
+void *memset(void *s, int c, size_t n)
+{
+	char *dst_chr = (char *)s;
+
+	while (n--)
+		*dst_chr++ = (char)c;
+
+	return s;
+}
+
 size_t strlen(const char *s)
 {
 	unsigned n;
@@ -259,4 +269,33 @@ void print(unsigned color, const char *s)
 	usb_write(&color, sizeof color);
 	usb_write(&sz, sizeof sz);
 	usb_write(s, sz);
+}
+
+void emmc_poweroff()
+{
+	*(unsigned *)0x11000044 = 0;
+	*(unsigned *)0x11000040 = 0x100;
+	*(unsigned *)0x11000048 = 0;
+	*(unsigned *)0x11000064 = 0;
+	*(unsigned *)0x11000060 = 0;
+	*(unsigned *)0x11000068 = 0;
+	sleep(400);
+}
+
+void reboot()
+{
+	/* Reboot target - download mode */
+	*(unsigned *)0x10020808 = 0x12345678;
+	*(unsigned *)0x1002080C = 0x12345671;
+
+	/* TODO Invalidate caches? */
+
+	/* Power off eMMC subsystem */
+	emmc_poweroff();
+
+	/* Trigger PMU reset */
+	*(unsigned *)0x10020400 = 1;
+
+	/* Wait for power cycle */
+	while (1);
 }

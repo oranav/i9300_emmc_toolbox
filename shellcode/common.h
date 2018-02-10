@@ -31,6 +31,7 @@ void print(unsigned color, const char *s);
 #define MMC_HANDLERS_ADDR (0x60030)
 
 void *memcpy(void *dst, const void *src, size_t n);
+void *memset(void *s, int c, size_t n);
 size_t strlen(const char *s);
 int mmc_send_cmd();
 int prepare_mmc(int bootrom);
@@ -44,5 +45,7 @@ int mmc_activate_cmd60();
 int mmc_enter_firmware_upgrade();
 int mmc_firmware_activate(unsigned type);
 int mmc_start_timer();
+void emmc_poweroff();
+void reboot();
 
 #endif
