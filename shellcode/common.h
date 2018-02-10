@@ -32,7 +32,6 @@ void print(unsigned color, const char *s);
 
 void *memcpy(void *dst, const void *src, size_t n);
 size_t strlen(const char *s);
-int is_mmu_on();
 int mmc_send_cmd();
 int prepare_mmc(int bootrom);
 int mmc_enter_read_ram();

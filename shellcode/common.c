@@ -1,5 +1,8 @@
 /*
  * common.c
+ *
+ * Library functions for sboot shellcodes.
+ *
  * Copyright (C) 2017 Oran Avraham <contact@oranav.me>
  *
  * Distributed under terms of the GPLv3 license.
@@ -7,40 +10,34 @@
 #include "shellcode.h"
 #include "common.h"
 
-void *memcpy(void *dst, const void *src, size_t n) {
+void *memcpy(void *dst, const void *src, size_t n)
+{
 	char *dst_chr = (char *)dst;
 	const char *src_chr = (const char *)src;
 
-	while (n--) {
+	while (n--)
 		*dst_chr++ = *src_chr++;
-	}
+
 	return dst;
 }
 
-size_t strlen(const char *s) {
+size_t strlen(const char *s)
+{
 	unsigned n;
 	for (n = 0; *s++; ++n);
 	return n;
 }
 
-int is_mmu_on() {
-	register int ret;
-	asm(
-		"MRC p15, 0, %0, c1, c0, 0\n"
-		"AND %0, %0, #1"
-		: "=r" (ret)
-	);
-	return ret;
-}
-
-int mmc_send_cmd(void *host, struct mmc_cmd *cmd, struct mmc_data *data) {
+int mmc_send_cmd(void *host, struct mmc_cmd *cmd, struct mmc_data *data)
+{
 	int (*func_addr)(void *, struct mmc_cmd *, struct mmc_data *);
 	func_addr = (int (*)(void *, struct mmc_cmd *, struct mmc_data *))
 		(*(long int*)host);
 	return func_addr(host, cmd, data);
 }
 
-int prepare_mmc(int bootrom) {
+int prepare_mmc(int bootrom)
+{
 	int ret;
 	struct mmc_cmd cmd;
 
@@ -71,7 +68,8 @@ int prepare_mmc(int bootrom) {
 	return 0;
 }
 
-int mmc_enter_read_ram() {
+int mmc_enter_read_ram()
+{
 	int ret;
 	struct mmc_cmd cmd;
 
@@ -90,7 +88,8 @@ int mmc_enter_read_ram() {
 	return 0;
 }
 
-int mmc_enter_write_ram() {
+int mmc_enter_write_ram()
+{
 	int ret;
 	struct mmc_cmd cmd;
 
@@ -109,7 +108,8 @@ int mmc_enter_write_ram() {
 	return 0;
 }
 
-int mmc_enter_read_dword() {
+int mmc_enter_read_dword()
+{
 	int ret;
 	struct mmc_cmd cmd;
 
@@ -128,7 +128,8 @@ int mmc_enter_read_dword() {
 	return 0;
 }
 
-int mmc_enter_write_dword() {
+int mmc_enter_write_dword()
+{
 	int ret;
 	struct mmc_cmd cmd;
 
@@ -147,7 +148,8 @@ int mmc_enter_write_dword() {
 	return 0;
 }
 
-int mmc_enter_jump() {
+int mmc_enter_jump()
+{
 	int ret;
 	struct mmc_cmd cmd;
 
@@ -166,7 +168,8 @@ int mmc_enter_jump() {
 	return 0;
 }
 
-int mmc_exit_cmd62() {
+int mmc_exit_cmd62()
+{
 	int ret;
 	struct mmc_cmd cmd;
 
@@ -185,7 +188,8 @@ int mmc_exit_cmd62() {
 	return 0;
 }
 
-int mmc_enter_firmware_upgrade() {
+int mmc_enter_firmware_upgrade()
+{
 	int ret;
 	struct mmc_cmd cmd;
 
@@ -201,7 +205,8 @@ int mmc_enter_firmware_upgrade() {
 	return 0;
 }
 
-int mmc_activate_cmd60() {
+int mmc_activate_cmd60()
+{
 	int ret;
 	struct mmc_cmd cmd;
 
@@ -214,7 +219,8 @@ int mmc_activate_cmd60() {
 	return 0;
 }
 
-int mmc_firmware_activate(unsigned type) {
+int mmc_firmware_activate(unsigned type)
+{
 	int ret;
 	struct mmc_cmd cmd;
 
@@ -229,7 +235,8 @@ int mmc_firmware_activate(unsigned type) {
 	return 0;
 }
 
-int mmc_start_timer() {
+int mmc_start_timer()
+{
 	int ret;
 	struct mmc_cmd cmd;
 
@@ -244,7 +251,8 @@ int mmc_start_timer() {
 	return cmd.response[0];
 }
 
-void print(unsigned color, const char *s) {
+void print(unsigned color, const char *s)
+{
 	size_t sz = strlen(s);
 	display(10, before(), color, 0, s);
 	usb_write("TX", 2);
