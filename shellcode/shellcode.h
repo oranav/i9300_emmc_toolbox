@@ -34,6 +34,9 @@ struct mmc_data {
 #define MMC_DEV_SIZE 200
 #define MMC_HOST_SIZE 56
 
+#define SBOOT_START	0x43E00000
+#define SBOOT_END	0x43F00000
+
 /* Constants from actual firmware - sboot version XXELLA */
 typedef int _before();
 #define before ((_before*)0x43E0B8E0)
@@ -67,8 +70,5 @@ typedef int _mmc_startup(void *);
 
 typedef int _mmc_send_op_cond(void*);
 #define mmc_send_op_cond ((_mmc_send_op_cond*)0x43E18AA0)
-
-#define mmc_host (void*)0x43EF5790
-#define mmc_dev (void*)0x43EF4840
 
 #endif

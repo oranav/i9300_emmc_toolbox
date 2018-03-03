@@ -27,6 +27,10 @@ int main() {
 	usb_write("oranav", 6);
 	print(CLR_GOOD, "Shellcode started");
 
+	/* Initialize mmc_dev */
+	FAIL_IF_NEG(mmc_dev_init());
+	print(CLR_INFO, "Found MMC device address");
+
 	/* Change boot partition knock code */
 	cmd.cmdidx = 62;
 	cmd.resp_type = 29;

@@ -31,6 +31,10 @@ int main() {
 	usb_write("oranav", 6);
 	print(CLR_GOOD, "Shellcode started");
 
+	/* Initialize mmc_dev */
+	FAIL_IF_NEG(mmc_dev_init());
+	print(CLR_INFO, "Found MMC device address");
+
 	/* Enter RAM reading backdoor */
 	FAIL_IF_NEG(mmc_enter_read_ram());
 	print(CLR_INFO, "Activated eMMC RAM reading backdoor. Reading RAM...");

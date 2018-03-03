@@ -27,6 +27,10 @@ int main() {
 	usb_write("oranav", 6);
 	print(CLR_GOOD, "Shellcode started");
 
+	/* Initialize mmc_dev */
+	FAIL_IF_NEG(mmc_dev_init());
+	print(CLR_INFO, "Found MMC device address");
+
 	/* Reboot eMMC into BootROM recovery mode */
 	FAIL_IF_NEG(prepare_mmc(TRUE));
 	print(CLR_INFO, "Rebooted eMMC into bootrom mode");

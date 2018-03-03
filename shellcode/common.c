@@ -10,6 +10,7 @@
 #include "shellcode.h"
 #include "common.h"
 
+
 void *memcpy(void *dst, const void *src, size_t n)
 {
 	char *dst_chr = (char *)dst;
@@ -38,6 +39,44 @@ size_t strlen(const char *s)
 	return n;
 }
 
+int mmc_dev_init()
+{
+	unsigned *addr;
+	unsigned *start = (unsigned *)SBOOT_START;
+	unsigned *end = (unsigned *)SBOOT_END;
+	struct tmp_t {
+		unsigned func_ptr1;
+		unsigned func_ptr2;
+		unsigned func_ptr3;
+		unsigned zero1;
+		unsigned zero2;
+		unsigned oemid;
+	} *tmp;
+
+	for (addr = start; addr < end; ++addr) {
+		tmp = (struct tmp_t*)addr;
+
+		if (tmp->func_ptr1 < SBOOT_START || tmp->func_ptr1 > SBOOT_END)
+			continue;
+		if (tmp->func_ptr2 < SBOOT_START || tmp->func_ptr2 > SBOOT_END)
+			continue;
+		if (tmp->func_ptr3 < SBOOT_START || tmp->func_ptr3 > SBOOT_END)
+			continue;
+		if (tmp->zero1 != 0)
+			continue;
+		if (tmp->zero2 != 0)
+			continue;
+		if (tmp->oemid != 0x15)
+			continue;
+
+		/* Ah, there you are! */
+		mmc_dev = (void *)addr;
+		return 0;
+	}
+
+	return -1;
+}
+
 int mmc_send_cmd(void *host, struct mmc_cmd *cmd, struct mmc_data *data)
 {
 	int (*func_addr)(void *, struct mmc_cmd *, struct mmc_data *);
@@ -52,8 +91,6 @@ int prepare_mmc(int bootrom)
 	struct mmc_cmd cmd;
 
 	emmc_poweroff();
-	memset(mmc_dev, 0, 272);
-	memset(mmc_host, 0, 56);
 	sleep(2000);
 
 	emmc_poweron();

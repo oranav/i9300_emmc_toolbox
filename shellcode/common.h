@@ -30,9 +30,13 @@ void print(unsigned color, const char *s);
 #define LOAD_FW_ADDR (0x8020|1)
 #define MMC_HANDLERS_ADDR (0x60030)
 
+/* Can't use a global variable due to shellcode compilation shenanigans */
+#define mmc_dev (*((void **)0x452fff00))
+
 void *memcpy(void *dst, const void *src, size_t n);
 void *memset(void *s, int c, size_t n);
 size_t strlen(const char *s);
+int mmc_dev_init();
 int mmc_send_cmd();
 int prepare_mmc(int bootrom);
 int mmc_enter_read_ram();
