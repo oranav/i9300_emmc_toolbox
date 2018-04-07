@@ -11,6 +11,7 @@
 /* These are auto-replaced by the exploit itself with the correct values */
 #define MAGIC_USB_WRITE	(0x8776D35A)
 #define MAGIC_USB_READ	(0xB9F9EAD9)
+#define MAGIC_SLEEP	(0x934ED462)
 
 /* Structs and typedefs */
 struct mmc_cmd {
@@ -45,7 +46,7 @@ typedef void _display(int, int, int, int, const char *, ...);
 #define display ((_display*)0x43E14B38)
 
 typedef void _sleep(int);
-#define sleep ((_sleep*)0x43E046E8)
+#define sleep ((_sleep*)MAGIC_SLEEP)
 
 typedef void _usb_write(const void *, unsigned);
 #define usb_write ((_usb_write*)MAGIC_USB_WRITE)
