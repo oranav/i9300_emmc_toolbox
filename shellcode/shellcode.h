@@ -68,7 +68,4 @@ typedef void _clk2(void* ,int);
 typedef int _mmc_startup(void *);
 #define mmc_startup ((_mmc_startup*)0x43E1B75C)
 
-typedef int _mmc_send_op_cond(void*);
-#define mmc_send_op_cond ((_mmc_send_op_cond*)0x43E18AA0)
-
 #endif

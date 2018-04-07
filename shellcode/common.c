@@ -85,6 +85,31 @@ int mmc_send_cmd(void *host, struct mmc_cmd *cmd, struct mmc_data *data)
 	return func_addr(host, cmd, data);
 }
 
+int mmc_send_op_cond(void *mmc)
+{
+	int timeout = 1000;
+	struct mmc_cmd cmd;
+	int err;
+
+	do {
+		cmd.flags = 0;
+		cmd.resp_type = 1;
+		cmd.cmdarg = 0x40000000 | 0x300000;
+		cmd.cmdidx = 1;
+
+		if ((err = mmc_send_cmd(mmc, &cmd, NULL)) != 0)
+			return err;
+
+		sleep(1);
+	} while (!(cmd.response[0] & 0x80000000) && timeout--);
+
+	if (timeout <= 0)
+		return -17;
+
+	/* TODO set mmc->{ocr,rca,version} */
+	return 0;
+}
+
 int prepare_mmc(int bootrom)
 {
 	int ret;
