@@ -9,12 +9,13 @@
 #define _SHELLCODE_H_
 
 /* These are auto-replaced by the exploit itself with the correct values */
-#define MAGIC_USB_WRITE	(0x8776D35A)
-#define MAGIC_USB_READ	(0xB9F9EAD9)
-#define MAGIC_SLEEP	(0x934ED462)
-#define MAGIC_DISPLAY	(0x3D486FAB)
-#define MAGIC_CLK1	(0x3300A7FB)
-#define MAGIC_CLK2	(0x3F392D79)
+#define MAGIC_USB_WRITE		(0x8776D35A)
+#define MAGIC_USB_READ		(0xB9F9EAD9)
+#define MAGIC_SLEEP		(0x934ED462)
+#define MAGIC_DISPLAY		(0x3D486FAB)
+#define MAGIC_CLK1		(0x3300A7FB)
+#define MAGIC_CLK2		(0x3F392D79)
+#define MAGIC_MMC_STARTUP	(0xCB02B341)
 
 /* Structs and typedefs */
 struct mmc_cmd {
@@ -41,7 +42,6 @@ struct mmc_data {
 #define SBOOT_START	0x43E00000
 #define SBOOT_END	0x43F00000
 
-/* Constants from actual firmware - sboot version XXELLA */
 typedef void _display(int x, int y, int color, int, const char *fmt, ...);
 #define display ((_display*)MAGIC_DISPLAY)
 
@@ -61,6 +61,6 @@ typedef void _clk2(void* ,int);
 #define clk2 ((_clk2*)MAGIC_CLK2)
 
 typedef int _mmc_startup(void *);
-#define mmc_startup ((_mmc_startup*)0x43E1B75C)
+#define mmc_startup ((_mmc_startup*)MAGIC_MMC_STARTUP)
 
 #endif
