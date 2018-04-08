@@ -32,7 +32,7 @@ $ make -C shellcode
 This is the preferred method, as your device will no longer suffer from the eMMC bug.
 
 * First option: use a patched kernel as described [here](https://forum.xda-developers.com/showpost.php?p=37936242&postcount=72). Once you obtained mmcram.bin, strip it to contain only the firmware: `dd if=mmcram.bin of=0xf7.bin bs=4K skip=64 count=32`.
-* Second option: dump using download mode. You need sboot XXELLA since the shellcode is compiled against it. Enter download mode on your device, then run `exploit/sboot_exploit.py --shellcode shellcode/dump_fw.bin -o 0xf7.bin`.
+* Second option: dump using download mode. You're adviced to use sboot XXELLA since the shellcode is only guaranteed to work against it, but your mileage may vary. Enter download mode on your device, then run `exploit/sboot_exploit.py --shellcode shellcode/dump_fw.bin -o 0xf7.bin`.
 
 
 #### Obtaining the firmware from your bricked device (0xF1)
@@ -43,7 +43,7 @@ This will unbrick your device, but your device will still suffer from the eMMC b
 
 ### Booting into download mode
 
-If your device can boot into download mode normally, you have some version of sboot installed on your device. If it's not version XXELLA, you need to adapt the shellcode addresses found under `shellcode/shellcode.h` for your version of sboot. If you don't know which sboot version you have, [dump sboot from your eMMC](#dumping-sboot).
+If your device can boot into download mode normally, you have some version of sboot installed on your device. The shellcode should theoretically work on any sboot version, but it is only guaranteed to work on sboot XXELLA. If it doesn't work, it might need some adaptations for your sboot version; be advised that some reverse engineering skill is required. If you don't know which sboot version you have, [dump sboot from your eMMC](#dumping-sboot).
 
 If your device cannot boot into download mode (i.e. it's entirely dead - you see nothing), you first need a charged battery. Then, proceed to [prepare a recovery SD card with sboot XXELLA](#preparing-a-recovery-sd-card-with-sboot-xxella). Once it's ready, just insert the SD card to your device, insert the battery, press power+volume down+home buttons for approx. 2-3 seconds, release all of them and press the volume up button once. Plug in the device over USB to your computer and it should be visible under `lsusb`. You might see some funky stuff on the phone's screen -- just ignore it.
 
@@ -82,7 +82,7 @@ The `exploit/` folder contains the sboot exploit in order to run code in the sbo
 
 The `shellcode/` folder contains a collection of sboot shellcodes for interaction with the eMMC.
 
-* shellcode.h: Addresses for linking against sboot (currently only for sboot XXELLA).
+* shellcode.h: Addresses for linking against sboot.
 * common.c, common.h: Common functions for shellcode operation.
 * write_fw.c: Writes a new firmware to the eMMC.
 * dump_fw.c Dumps the firmware from a working (non-brick) eMMC.
