@@ -39,6 +39,11 @@ size_t strlen(const char *s)
 	return n;
 }
 
+void screen_init()
+{
+	screen_y = 150;
+}
+
 int mmc_dev_init()
 {
 	unsigned *addr;
@@ -326,7 +331,8 @@ int mmc_start_timer()
 void print(unsigned color, const char *s)
 {
 	size_t sz = strlen(s);
-	display(10, before(), color, 0, s);
+	display(10, screen_y, color, 0, s);
+	screen_y += 20;
 	usb_write("TX", 2);
 	usb_write(&color, sizeof color);
 	usb_write(&sz, sizeof sz);

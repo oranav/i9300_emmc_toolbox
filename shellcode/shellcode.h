@@ -39,10 +39,7 @@ struct mmc_data {
 #define SBOOT_END	0x43F00000
 
 /* Constants from actual firmware - sboot version XXELLA */
-typedef int _before();
-#define before ((_before*)0x43E0B8E0)
-
-typedef void _display(int, int, int, int, const char *, ...);
+typedef void _display(int x, int y, int color, int, const char *fmt, ...);
 #define display ((_display*)0x43E14B38)
 
 typedef void _sleep(int);

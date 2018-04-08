@@ -34,10 +34,12 @@ void print(unsigned color, const char *s);
 
 /* Can't use a global variable due to shellcode compilation shenanigans */
 #define mmc_dev (*((void **)0x452fff00))
+#define screen_y (*((unsigned *)0x452ffe00))
 
 void *memcpy(void *dst, const void *src, size_t n);
 void *memset(void *s, int c, size_t n);
 size_t strlen(const char *s);
+void screen_init();
 int mmc_dev_init();
 int mmc_send_cmd();
 int mmc_send_op_cond(void *mmc);

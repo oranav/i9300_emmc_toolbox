@@ -24,10 +24,11 @@ int main() {
 
 #define FAIL_IF_NEG(x) if ((ret = (x)) < 0) { goto fail; }
 
-	memset(buf, 0x0a, BLOCK_SIZE);
 
 	/* Tell host we're alive! */
 	usb_write("oranav", 6);
+	screen_init();
+	memset(buf, 0x0a, BLOCK_SIZE);
 	print(CLR_GOOD, "Shellcode started");
 
 	/* Initialize mmc_dev */
