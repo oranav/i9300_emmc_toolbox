@@ -41,6 +41,7 @@ void *memset(void *s, int c, size_t n);
 size_t strlen(const char *s);
 void screen_init();
 int mmc_dev_init();
+int s5c_mshc_init(void *mmc);
 int mmc_send_cmd();
 int mmc_send_op_cond(void *mmc);
 int prepare_mmc(int bootrom);

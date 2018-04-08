@@ -82,6 +82,13 @@ int mmc_dev_init()
 	return -1;
 }
 
+int s5c_mshc_init(void *mmc)
+{
+	int (*func_addr)(void *);
+	func_addr = (int (*)(void *)) (*((long int*)mmc + 2));
+	return func_addr(mmc);
+}
+
 int mmc_send_cmd(void *host, struct mmc_cmd *cmd, struct mmc_data *data)
 {
 	int (*func_addr)(void *, struct mmc_cmd *, struct mmc_data *);

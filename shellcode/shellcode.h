@@ -54,9 +54,6 @@ typedef void _usb_write(const void *, unsigned);
 typedef void _usb_read(void *, unsigned);
 #define usb_read ((_usb_read*)MAGIC_USB_READ)
 
-typedef void _s5c_mshc_init(void *);
-#define s5c_mshc_init ((_s5c_mshc_init*)0x43E1E718)
-
 typedef void _emmc_poweron();
 #define emmc_poweron ((_emmc_poweron*)0x43E1BBC8)
 
