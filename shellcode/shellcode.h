@@ -13,6 +13,8 @@
 #define MAGIC_USB_READ	(0xB9F9EAD9)
 #define MAGIC_SLEEP	(0x934ED462)
 #define MAGIC_DISPLAY	(0x3D486FAB)
+#define MAGIC_CLK1	(0x3300A7FB)
+#define MAGIC_CLK2	(0x3F392D79)
 
 /* Structs and typedefs */
 struct mmc_cmd {
@@ -59,10 +61,10 @@ typedef void _emmc_poweron();
 #define emmc_poweron ((_emmc_poweron*)0x43E1BBC8)
 
 typedef void _clk1(void *, int);
-#define clk1 ((_clk1*)0x43E1ABEC)
+#define clk1 ((_clk1*)MAGIC_CLK1)
 
 typedef void _clk2(void* ,int);
-#define clk2 ((_clk2*)0x43E1AC6C)
+#define clk2 ((_clk2*)MAGIC_CLK2)
 
 typedef int _mmc_startup(void *);
 #define mmc_startup ((_mmc_startup*)0x43E1B75C)
