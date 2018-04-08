@@ -12,6 +12,7 @@
 #define MAGIC_USB_WRITE	(0x8776D35A)
 #define MAGIC_USB_READ	(0xB9F9EAD9)
 #define MAGIC_SLEEP	(0x934ED462)
+#define MAGIC_DISPLAY	(0x3D486FAB)
 
 /* Structs and typedefs */
 struct mmc_cmd {
@@ -40,7 +41,7 @@ struct mmc_data {
 
 /* Constants from actual firmware - sboot version XXELLA */
 typedef void _display(int x, int y, int color, int, const char *fmt, ...);
-#define display ((_display*)0x43E14B38)
+#define display ((_display*)MAGIC_DISPLAY)
 
 typedef void _sleep(int);
 #define sleep ((_sleep*)MAGIC_SLEEP)
