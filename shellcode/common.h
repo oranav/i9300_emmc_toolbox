@@ -55,6 +55,7 @@ int mmc_activate_cmd60();
 int mmc_enter_firmware_upgrade();
 int mmc_firmware_activate(unsigned type);
 int mmc_start_timer();
+void emmc_poweron();
 void emmc_poweroff();
 void reboot();
 

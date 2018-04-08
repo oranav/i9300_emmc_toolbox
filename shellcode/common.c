@@ -346,6 +346,21 @@ void print(unsigned color, const char *s)
 	usb_write(s, sz);
 }
 
+void emmc_poweron()
+{
+	*(unsigned *)0x11000080 = 0x2222022;
+	*(unsigned *)0x11000088 = 0x3FD0;
+	*(unsigned *)0x1100008C = 0x3FFF;
+	*(unsigned *)0x11000044 |= 4;
+	*(unsigned *)0x11000040 = 0x3333133;
+	*(unsigned *)0x11000048 = 0;
+	*(unsigned *)0x1100004C = 0x2AAA;
+	*(unsigned *)0x11000060 = 0x4444000;
+	*(unsigned *)0x11000068 = 0x15;
+	*(unsigned *)0x1100006C = 0x2A80;
+	*(unsigned *)0x1255009C = 0x10001;
+}
+
 void emmc_poweroff()
 {
 	*(unsigned *)0x11000044 = 0;
