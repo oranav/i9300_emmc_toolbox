@@ -4,6 +4,8 @@ A collection of tools used to revive and experiment with Samsung GT-I9300 eMMC c
 
 *This project is experimental in its nature and I take absolutely no responsiblity for anything that might happen to your device.*
 
+**Caution: You will lose your EFS partition, but there's not much to do about it.**
+
 ## Instructions
 
 ### Reviving a dead Samsung Galaxy S3 (GT-I9300)
@@ -23,7 +25,7 @@ $ make -C shellcode
 5. Resize the boot partition:
 	`exploit/sboot_exploit.py --shellcode shellcode/change_boot_partition_size.bin`
 6. eMMC should be working right now. You can use a normal recovery SD card [as described here](https://forum.xda-developers.com/galaxy-s3/general/galaxy-s-iii-gt-i9300-hard-brick-fix-t1916796). This will install sboot on your eMMC, using *SDCARD mode*.
-7. You're able to use Odin or [Heimdall](https://github.com/Benjamin-Dobell/Heimdall) to flash a new ROM to your device (you also need to repartition, i.e. flash a new PIT).
+7. eMMC is functional! You can use Odin or [Heimdall](https://github.com/Benjamin-Dobell/Heimdall) to flash a new ROM to your device (you also need to repartition, i.e. [flash a new PIT](https://forum.xda-developers.com/galaxy-s3/help/solved-pit-bricked-dead-problem-gt-t2535367)). Flashing a new PIT may not work with Heimdall, so use Odin if this is the case. Afterwards, flash some recovery (e.g. TWRP) and format all the user partitions to ext4 (/cache, /data, /preload, /sdcard). Then flash some firmware and your phone is good to go (except for EFS which is missing now).
 
 ### Obtaining a firmware dump
 
