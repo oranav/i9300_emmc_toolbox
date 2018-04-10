@@ -55,11 +55,11 @@ int mmc_dev_init()
 		unsigned func_ptr3;
 		unsigned zero1;
 		unsigned zero2;
-		unsigned oemid;
 	} *tmp;
 
 	for (addr = start; addr < end; ++addr) {
 		tmp = (struct tmp_t*)addr;
+		unsigned *ahead = (unsigned *)&tmp[1];
 
 		if (tmp->func_ptr1 < SBOOT_START || tmp->func_ptr1 > SBOOT_END)
 			continue;
@@ -71,12 +71,15 @@ int mmc_dev_init()
 			continue;
 		if (tmp->zero2 != 0)
 			continue;
-		if (tmp->oemid != 0x15)
-			continue;
 
-		/* Ah, there you are! */
-		mmc_dev = (void *)addr;
-		return 0;
+		/* Search for clock values: 50000000, 400000 */
+		do {
+			if (ahead[0] == 50000000 && ahead[1] == 400000) {
+				/* Ah, there you are! */
+				mmc_dev = (void *)addr;
+				return 0;
+			}
+		} while (++ahead < &addr[64]);
 	}
 
 	return -1;
