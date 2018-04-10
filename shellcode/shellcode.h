@@ -40,7 +40,7 @@ struct mmc_data {
 #define MMC_HOST_SIZE 56
 
 #define SBOOT_START	0x43E00000
-#define SBOOT_END	0x43F00000
+#define SBOOT_END	0x44200000
 
 typedef void _display(int x, int y, int color, int, const char *fmt, ...);
 #define display ((_display*)MAGIC_DISPLAY)
